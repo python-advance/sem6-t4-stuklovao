@@ -1,32 +1,33 @@
 # Задание 4.1
 
-import pandas as pd 
+import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
+import csv
 
-"""
-    Загрузка данных
-"""
-df = pd.read_csv('data.csv', header = None) 
-x, y = df[0], df[1] 
-#print(df)
+x, y, areas = [], [], []
 
-"""
-    Строим линейную функцию по двум точка
-"""
-x1,y1 = [0,22.5],[0,25]
+with open("price.csv") as file:
+    reader = csv.reader(file, delimiter=';')
+    for line in reader:
+        areas.append(line[0])
+        x.append(int(line[1]))
+        y.append(int(line[2]))
 
 
-"""
-    Визуализация данных
-"""
+xy = range(len(areas))
 
+# Помещаем кортеж, содержащий фигуру и объект осей в переменные
+fig, ax = plt.subplots()
 
-fig = plt.scatter(x, y, s = x, c ='green', label = u'Данные из файла') 
-fig1 = plt.plot(x1, y1, 'r', label = u'Линейная функция') 
+plt.scatter(xy, x, label=u'1-комнатные', color='b')
+plt.scatter(xy, y, label=u'2-комнатные', color='k')
 
-plt.savefig('plot.png', format='png')
-plt.title('График 1')
-plt.grid(False)
+plt.xlabel('Районы Санкт-Петербурга')
+plt.ylabel('Стоимость')
+plt.title('Cтоимость квартир по районам СПб')
+plt.xticks(xs, areas)
+fig.autofmt_xdate(rotation=45)
 plt.legend()
-plt.ylabel('Ось y')
-plt.xlabel('Ось x')
+plt.savefig('img.png', format='png')
+plt.show()
